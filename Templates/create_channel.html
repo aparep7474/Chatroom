@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Create Channel
+{% endblock %}
+
+{% block content %}
+  <body class="text-center">
+    <h1 class="mt-3">
+      Create Channel
+    </h1>
+    <form action="/create_channel" method="post">
+      <input type="text" id="channel" name="channel" placeholder="Enter Your Channel Name" autofocus autocomplete="off" style="height: 40px;width: 300px;" class="mt-3">
+      <div class="my-2" style="color: gray;font-size: 10px">Create a channel here or join an existing with the channels tab in the navbar</div>
+      <button class="btn btn-secondary" type="submit">Submit</button>
+    </form>
+  </body>
+  <div class="alert alert-dark" style="position: fixed;bottom: 5px;left:2%;width: 96%;z-index: -1" role="alert">
+    - Chatters Online:{% for user in users %} <strong>{{ user }}</strong> -{% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  {{ session.room }}
+{% endblock %}
+
+{% block head %}
+  <style>
+    #box {
+      box-sizing: border-box;
+      border-radius: 5px;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid gray;
+      margin: 0;
+    }
+
+    #posts li {
+      padding-top: 15px
+    }
+  </style>
+  <script src="{{url_for('static', filename='channel.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+  <h1 class="text-center">{{ session.room }}</h1>
+  <body>
+    <div id="box">
+      {% if messages_created2 %}
+        {% for k, v in messages_created2.items() %}
+          <ul>
+            <li><strong> admin </strong> : {{ k }} <small class="float-right"> {{ v }} </small></li>
+          </ul>
+        {% endfor %}
+        <ul><div>---These are old broadcasts---</div></ul>
+      {% endif %}
+      {% if messages_created %}
+        {% for message in messages_created %}
+          <ul>
+            <li><strong> {{ message[0] }} </strong> : {{ message[1] }} <small class="float-right"> {{ message[2] }} </small></li>
+          </ul>
+        {% endfor %}
+        <ul><div>---These are old messages---</div></ul>
+      {% endif %}
+      <ul id="posts">
+      </ul>
+    </div>
+    <p class="my-2" style="color: gray;font-size: 10px;margin: 5px">Scroll Up to See Admin Worldwide Posts</p>
+    <hr>
+    <form id="form" method="post">
+      <input id="message" autofocus autocomplete="off" placeholder="Enter Your Post Here" style="height: 40px;width: 800px;" class="mt-3">
+      <button class="btn btn-secondary">Send</button>
+      {% if session.username == 'admin' %}
+      <div class="row">
+        <label class="col-3 mt-4" style="margin: 5px">Select Channel or Worldwide Broadcast:</label>
+      </div>
+      <select id="broadcast" style="margin: 5px">
+        <option value="channel">Channel Broadcast</option>
+        <option value="worldwide">Worldwide Broadcast</option>
+      </select>
+      {% endif %}
+      {% if session.username != 'admin' %}
+      <select id="broadcast" style="margin: 5px" hidden>
+        <option value="channel" hidden selected>Channel Broadcast</option>
+        <option value="worldwide" hidden>Worldwide Broadcast</option>
+      </select>
+      <button id="delete" hidden></button>
+      {% endif %}
+    </form>
+    {% if session.username == 'admin' %}
+    <div class="text-center">
+      <button id="delete" class="btn btn-danger btn-lg my-5 float-center">Delete This Channel</button>
+    </div>
+    {% endif %}
+  </body>
+{% endblock %}

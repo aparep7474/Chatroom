@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+  <title>
+    {% block title %}
+    {% endblock %}
+  </title>
+
+  <head>
+    {% block head %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand">
+        Flack
+      </a>
+      {% if session.username %}
+      <div class="navbar-nav mr-auto">
+        <span class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Channels
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% for channel in channels %}
+            <a class="dropdown-item" href="/channels/{{ channel }}">{{ channel }}</a>
+            {% endfor %}
+          </div>
+        </span>
+        <span class="nav-item"><a class="nav-link" href="/create_channel">Add Channel</a></span>
+      </div>
+      <div class="navbar-nav ml-auto">
+        <span class="nav-item"><a class="nav-link disabled" href="#">{{ session.username }}</a></span>
+        <span class="nav-item"><a class="nav-link" href="/log_out">Log Out</a></span>
+      </div>
+      {% else %}
+      <div class="navbar-nav ml-auto">
+        <span class="nav-item"><a class="nav-link" href="/">Log In</a></span>
+      </div>
+      {% endif %}
+    </nav>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+         <div class="alert alert-danger alert-dismissible fade show" style="position: fixed;bottom: 5px;left: 2%;width: 96%;z-index: 1">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <main class="content">
+      {% block content %}
+      {% endblock %}
+    </main>
+  </body>
+</html>

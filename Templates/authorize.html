@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Authorize
+{% endblock %}
+
+{% block content %}
+  <body class="text-center">
+    <h1 class="mt-3">
+      Authorize
+    </h1>
+    <form action="/authorize" method="post" id="form">
+      <input type="password" id="password" name="password" placeholder="Enter Your Password"  autofocus autocomplete="off" style="height: 40px;width: 300px;" class="mt-3">
+      <div class="my-2" style="color: gray;font-size: 10px">You are on the admin account enter password to continue</div>
+      <button class="btn btn-secondary" type="submit">Submit</button>
+    </form>
+  </body>
+{% endblock %}
